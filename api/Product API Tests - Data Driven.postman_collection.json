@@ -294,8 +294,9 @@
 					"script": {
 						"exec": [
 							"// Test 1: Status code validation",
-							"pm.test(\"Status code is 200\", function () {",
-							"    pm.response.to.have.status(200);",
+							"pm.test(\"Status code matches expected\", function () {",
+							"    const expectedStatus = parseInt(pm.variables.get('expected_status') || '200');",
+							"    pm.response.to.have.status(expectedStatus);",
 							"});",
 							"",
 							"// Test 2: Product ID validation (for valid IDs)",

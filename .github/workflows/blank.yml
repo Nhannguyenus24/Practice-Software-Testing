@@ -1,0 +1,48 @@
+name: Newman API Tests
+
+on:
+  push:
+    branches:
+      - main
+      - 'feature/**'
+
+jobs:
+  run-newman-tests:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./api
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install Newman
+        run: npm install -g newman
+
+      - name: Install Newman HTML Reporter
+        run: npm install -g newman-reporter-html
+
+      - name: Run products-list tests
+        run: |
+          newman run "Product API Tests - Data Driven.postman_collection.json" -e environment.json --folder "products-list" --reporters cli,junit,html --reporter-junit-export products-list-report.xml --reporter-html-export products-list-report.html
+
+      - name: Run products-detail tests
+        run: |
+          newman run "Product API Tests - Data Driven.postman_collection.json" -e environment.json --folder "products-detail" --reporters cli,junit,html --reporter-junit-export products-detail-report.xml --reporter-html-export products-detail-report.html
+
+      - name: Run products-search tests
+        run: |
+          newman run "Product API Tests - Data Driven.postman_collection.json" -e environment.json --folder "products-search" --reporters cli,junit,html --reporter-junit-export products-search-report.xml --reporter-html-export products-search-report.html
+
+      - name: Upload test reports
+        uses: actions/upload-artifact@v4
+        with:
+          name: newman-reports
+          path: |
+            ./api/*.xml
+            ./api/*.html

@@ -2,7 +2,7 @@
 
 Bộ test hoàn chỉnh cho 3 API Product với data-driven testing sử dụng CSV files.
 
-## 📁 Cấu trúc thư mục
+## Cấu trúc thư mục
 
 ```
 tests/api/
@@ -172,4 +172,5 @@ newman run collection.json -e environment.json --data products-list.csv
 - Tất cả test cases dựa trên dữ liệu thực từ `toolshop-data.sql`
 - Collection sử dụng data-driven approach với CSV files
 - Mỗi API có file CSV riêng để dễ quản lý
+
 - Test scripts tự động validate response structure và data 

@@ -1,0 +1,11 @@
+test_case,search_query,expected_count,expected_status,description
+search_hammer,hammer,,200,Tìm kiếm từ khóa 'hammer'
+search_drill,drill,,200,Tìm kiếm từ khóa 'drill'
+search_plie,pliers,,200,Tìm kiếm từ khóa 'pliers'
+search_saw,saw,,200,Tìm kiếm từ khóa 'saw'
+search_special_characters,!@#$%^&*(),,200,Tìm kiếm ký tự đặc biệt
+search_sql_injection,"'; DROP TABLE products; --",,200,Thử SQL injection
+search_xss,<script>alert('xss')</script>,,200,Thử XSS
+search_empty,,200,Tìm kiếm rỗng
+search_long,aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,,200,Tìm kiếm chuỗi rất dài
+search_unicode,điện,,200,Tìm kiếm unicode 

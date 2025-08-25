@@ -1,0 +1,16 @@
+test_case,by_brand,by_category,is_rental,between,sort,expected_count,expected_status,description
+all_products,,,,,,,200,Lấy toàn bộ sản phẩm
+brand_1,1,,,,,,200,Lọc theo brand 1
+brand_2,2,,,,,,200,Lọc theo brand 2
+category_3,,3,,,,,200,Lọc theo category 3 (Hammer)
+category_12,,12,,,,,200,Lọc theo category 12 (Other)
+rental_products,,,1,,,,200,Lọc sản phẩm cho thuê
+non_rental_products,,,0,,,,200,Lọc sản phẩm không cho thuê
+price_range_10_50,,,,price,10,50,,,200,Lọc sản phẩm giá từ 10 đến 50
+price_range_100_200,,,,price,100,200,,,200,Lọc sản phẩm giá từ 100 đến 200
+sort_name_asc,,,,,name,asc,,200,Sắp xếp theo tên tăng dần
+sort_price_desc,,,,,price,desc,,200,Sắp xếp theo giá giảm dần
+invalid_brand,999,,,,,,200,Brand không tồn tại
+invalid_category,,999,,,,,200,Category không tồn tại
+invalid_rental,,,abc,,,,200,Tham số is_rental không hợp lệ
+empty_result,,999,1,,,,200,Kết quả rỗng 

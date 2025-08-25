@@ -1,0 +1,9 @@
+test_case,product_id,expected_status,description
+valid_id_1,1,200,Lấy chi tiết sản phẩm id=1
+valid_id_10,10,200,Lấy chi tiết sản phẩm id=10
+valid_id_27,27,200,Lấy chi tiết sản phẩm rental id=27
+invalid_id_999,999,404,ID không tồn tại
+zero_id,0,404,ID bằng 0
+negative_id,-1,404,ID âm
+non_numeric_id,abc,404,ID không phải số
+very_large_id,999999999,404,ID rất lớn 

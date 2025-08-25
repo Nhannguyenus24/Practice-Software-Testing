@@ -1,0 +1,44 @@
+{
+  "name": "product-api-tests",
+  "version": "1.0.0",
+  "description": "Data-driven API tests for Product APIs using Postman and Newman",
+  "main": "index.js",
+  "scripts": {
+    "test": "powershell -ExecutionPolicy Bypass -File run-tests.ps1",
+    "test:list": "powershell -ExecutionPolicy Bypass -File run-tests.ps1 -ApiType list",
+    "test:search": "powershell -ExecutionPolicy Bypass -File run-tests.ps1 -ApiType search",
+    "test:detail": "powershell -ExecutionPolicy Bypass -File run-tests.ps1 -ApiType detail",
+    "test:bash": "bash run-tests.sh",
+    "test:bash:list": "bash run-tests.sh --api-type list",
+    "test:bash:search": "bash run-tests.sh --api-type search",
+    "test:bash:detail": "bash run-tests.sh --api-type detail",
+    "install-deps": "npm install -g newman newman-reporter-htmlextra",
+    "setup": "npm run install-deps && mkdir -p reports",
+    "clean": "Remove-Item -Path reports/* -Force -Recurse -ErrorAction SilentlyContinue",
+    "clean:bash": "rm -rf reports/*"
+  },
+  "keywords": [
+    "api-testing",
+    "postman",
+    "newman",
+    "data-driven",
+    "laravel",
+    "product-api",
+    "automation",
+    "testing"
+  ],
+  "author": "API Test Team",
+  "license": "MIT",
+  "devDependencies": {},
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-repo/product-api-tests.git"
+  },
+  "bugs": {
+    "url": "https://github.com/your-repo/product-api-tests/issues"
+  },
+  "homepage": "https://github.com/your-repo/product-api-tests#readme"
+} 

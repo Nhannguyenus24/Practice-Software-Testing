@@ -23,16 +23,18 @@
 
 ### Individual Scope
 
-This report focuses on the **Favorite APIs** which include:
 
-- **GET /api/products** - Get list of products
-- **GET /api/products/search** - Search for a product
-- **GET /api/products/{id}** - Get detail product
-- **Link Videos**:
-  - CI/CD Integration: https://youtu.be/WR5x8hrHYUQ
-  - GET /api/products: https://youtu.be/7fBndZKwLLo
-  - GET /api/products: https://youtu.be/1n4TFo4mZ2M
-  - GET /api/products/{id}: https://youtu.be/kk1IUgy830g
+This report focuses on the **Product APIs** được kiểm thử tự động với data-driven testing, bao gồm:
+
+- **GET /api/products** - Lấy danh sách sản phẩm
+- **GET /api/products/search** - Tìm kiếm sản phẩm
+- **GET /api/products/{id}** - Lấy chi tiết sản phẩm
+
+**Link Videos**:
+   - CI/CD Integration: https://youtu.be/WR5x8hrHYUQ
+   - GET /api/products: https://youtu.be/7fBndZKwLLo
+   - GET /api/products/search: https://youtu.be/1n4TFo4mZ2M
+   - GET /api/products/{id}: https://youtu.be/kk1IUgy830g
 
 ---
 
@@ -73,14 +75,14 @@ By completing this assignment, I have gained the ability to:
 
 ### API Endpoints Overview
 
-The Favorite APIs provide functionality for users to manage their favorite products:
 
-| Endpoint          | Method | Description              | Authentication Required |
-| ----------------- | ------ | ------------------------ | ----------------------- |
-| `/favorites`      | POST   | Add product to favorites | Yes                     |
-| `/favorites`      | GET    | Get user's favorites     | Yes                     |
-| `/favorites/{id}` | GET    | Get specific favorite    | Yes                     |
-| `/favorites/{id}` | DELETE | Remove favorite          | Yes                     |
+Các API được kiểm thử:
+
+| Endpoint                | Method | Description                | Authentication Required |
+| ----------------------- | ------ | -------------------------- | ----------------------- |
+| `/api/products`         | GET    | Lấy danh sách sản phẩm     | No                      |
+| `/api/products/search`  | GET    | Tìm kiếm sản phẩm          | No                      |
+| `/api/products/{id}`    | GET    | Lấy chi tiết sản phẩm      | No                      |
 
 ---
 
@@ -90,22 +92,25 @@ The Favorite APIs provide functionality for users to manage their favorite produ
 
 I adopted a comprehensive testing approach that includes:
 
-1. **Data-Driven Testing**: Using CSV files to manage test data
-2. **Positive and Negative Testing**: Testing both valid and invalid scenarios
-3. **Authentication Testing**: Ensuring proper access control
+
+1. **Data-Driven Testing**: Sử dụng file CSV để quản lý dữ liệu test cho từng API
+2. **Positive & Negative Testing**: Kiểm thử cả trường hợp hợp lệ và không hợp lệ
+3. **Automation & CI/CD**: Tích hợp kiểm thử vào workflow tự động với Newman và GitHub Actions
 
 ### Tools and Technologies
 
-- **Postman**: Primary API testing tool
-- **CSV Files**: Data management for test cases
-- **GitHub Actions**: CI/CD integration
-- **AI Tools**: ChatGPT for test case design assistance
-- **Newman**: Command-line collection runner for Postman
+
+- **Postman**: Thiết kế và kiểm thử API
+- **CSV Files**: Quản lý dữ liệu test cho từng API
+- **Newman**: Chạy collection tự động trên CLI
+- **GitHub Actions**: Tích hợp CI/CD
+- **AI Tools**: Hỗ trợ thiết kế test case
 
 ### Test Environment Setup
 
-1. **Local Deployment**: Downloaded and deployed the application locally
-2. **Postman Environment**: Configured environment variables
+
+1. **Local Deployment**: Deploy ứng dụng local hoặc sử dụng endpoint public
+2. **Postman Environment**: Sử dụng file `environment.json` với biến `baseUrl` (ví dụ: https://api-with-bugs.practicesoftwaretesting.com)
 
 ---
 
@@ -115,179 +120,93 @@ I adopted a comprehensive testing approach that includes:
 
 ![Alt text](./images/1.png)
 
-### Step 2: Create New Environment
 
-![Alt text](./images/2.png)
+### Step 2: Import Environment
 
-- base_url: use localhost or hosted link if you can't deploy docker
+Import file `environment.json` vào Postman, đảm bảo biến `baseUrl` đúng với endpoint cần test (ví dụ: https://api-with-bugs.practicesoftwaretesting.com)
 
-### Step 3: Create New Collection
 
-![Alt text](./images/3.png)
+### Step 3: Import Collection
 
-- Click new and choose Collection to create a empty collection
+Import file `Product API Tests - Data Driven.postman_collection.json` vào Postman.
 
-### Step 4: Create Requests
 
-![Alt text](./images/4.png)
+### Step 4: Kiểm tra các request trong collection
 
-- Create the request (login, add fav, get all,...) like the above, we will go to config these request now
+Collection đã có sẵn các request:
+- GET /api/products
+- GET /api/products/search
+- GET /api/products/{id}
 
-### Step 5: Config Login Request
 
-![Alt text](./images/5.png)
+### Step 5: Cấu hình test data (CSV)
 
-- In headers tab, add content-type application/json
+Sử dụng các file CSV tương ứng:
+- `products-list.csv` cho GET /api/products
+- `products-search.csv` cho GET /api/products/search
+- `products-detail.csv` cho GET /api/products/{id}
 
-![Alt text](./images/6.png)
 
-- In body tab, add infor like the above image, params in {{}} will pass by csv file for data driven
+### Step 6: Tạo test case trong file CSV
 
-![Alt text](./images/7.png)
+Các cột trong file CSV phải trùng với biến sử dụng trong request (ví dụ: id, search, v.v.).
 
-- In scripts tab, add test code (can write manual, use snippets like the image or use AI generated)
 
-![Alt text](./images/8.png)
+## Step 7: Chạy test với Newman
 
-- When login successful, we store token in two environment variables
+Có thể chạy từng API hoặc toàn bộ bằng script `run-tests.sh`:
 
-### Step 6: Config Add Fav Request
-
-![Alt text](./images/9.png)
-
-- Add content-type application/json and token
-
-![Alt text](./images/10.png)
-
-- Add product_id in body tab
-
-![Alt text](./images/11.png)
-
-- Add test code
-
-### Step 7: Config Get Fav Request
-
-- Get all
-
-![Alt text](./images/12.png)
-![Alt text](./images/13.png)
-
-- Get by id
-
-![Alt text](./images/14.png)
-![Alt text](./images/15.png)
-
-### Step 8: Config Delete Fav Request
-
-![Alt text](./images/16.png)
-![Alt text](./images/17.png)
-
-### Step 9: Create test cases as CSV file
-
-- Noted: CSV title column (first line) must match with parameters you defined in double curly brackets {{}} above
-
-- post
-
-![Alt text](./images/18.png)
-
-- get
-
-![Alt text](./images/19.png)
-
-- delete
-
-![Alt text](./images/20.png)
-
-## Step 10: Choose Environment to run
-
-![Alt text](./images/21.png)
-
-## Step 11: Run login request
-
-- Because We're focusing on Favorite API, so login request can run successfully without CSV file, just click Send button
-
-![Alt text](./images/22.png)
-
-- As I mentioned, token will save to environment, so we just run this request only once
-
-## Step 12: Run Post request
-
-- To run with CSV file, click like image below:
-
-![Alt text](./images/23.png)
-![Alt text](./images/24.png)
-![Alt text](./images/25.png)
-
-- Choose use locally or Upload to workspace are fine. After that, click run button (orange button)
-
-![Alt text](./images/26.png)
-
-- If you want to test without token, do like this
-
-![Alt text](./images/27.png)
-
-- And now we run request
-
-![Alt text](./images/28.png)
-
-- All status code is 401 (Unauthorized)
-- It's the basic to run a request with csv file, now I only show the result off all remaining requests
-
-## Step 13: Run Get request
-
-![Alt text](./images/29.png)
-
-## Step 14: Run Delete request
-
-![Alt text](./images/30.png)
+```bash
+sh run-tests.sh --api-type all
+```
+Hoặc chạy từng API:
+```bash
+sh run-tests.sh --api-type list    # GET /api/products
+sh run-tests.sh --api-type search  # GET /api/products/search
+sh run-tests.sh --api-type detail  # GET /api/products/{id}
+```
 
 ## Test Case Design
 
+
 ### Test Case Structure
 
-Each test case follows a standardized structure:
-
-- **Test Case ID**: Unique identifier
-- **Test Name**: Descriptive name
-- **Method**: HTTP method (GET, POST, DELETE)
+Mỗi test case gồm các trường:
+- **Test Case ID**: Mã test case
+- **Test Name**: Tên mô tả
+- **Method**: HTTP method (GET)
 - **Endpoint**: API endpoint
-- **Test Data**: Input parameters
-- **Expected Status**: Expected HTTP status code
-- **Description**: Test scenario description
+- **Test Data**: Tham số truyền vào (id, search, ...)
+- **Expected Status**: Mã trạng thái mong đợi
+- **Description**: Mô tả kịch bản
 
 ### Data-Driven Test Cases
 
-#### 1. POST /favorites - Add Favorite
+#### 1. GET /api/products
+| Test Case | Test Name                | Expected Status | Description                        |
+| --------- | ------------------------ | --------------- | ---------------------------------- |
+| 1         | Get_All_Products         | 200             | Lấy toàn bộ danh sách sản phẩm     |
+| 2         | Get_Products_Pagination  | 200             | Kiểm tra phân trang                |
 
-| Test Case | Test Name                    | Product ID | Expected Status | Description                               |
-| --------- | ---------------------------- | ---------- | --------------- | ----------------------------------------- |
-| 1         | Add_Valid_Favorite           | 1          | 201             | Add favorite with valid product ID        |
-| 2         | Add_Duplicate_Favorite       | 1          | 422             | Try to add duplicate favorite             |
-| 3         | Add_Favorite_Invalid_Product | 99999      | 422             | Add favorite with non-existent product ID |
-| 4         | Add_Favorite_String_Product  | abc        | 422             | Add favorite with string product ID       |
+#### 2. GET /api/products/search
+| Test Case | Test Name                | Search   | Expected Status | Description                        |
+| --------- | ------------------------ | -------- | --------------- | ---------------------------------- |
+| 1         | Search_Valid_Keyword     | "phone" | 200             | Tìm kiếm sản phẩm hợp lệ           |
+| 2         | Search_Empty             | ""      | 200             | Tìm kiếm với từ khóa rỗng          |
+| 3         | Search_Invalid_Keyword   | "xyz"   | 200             | Tìm kiếm không ra kết quả          |
 
-#### 2. GET /favorites - Get Favorites
-
-| Test Case | Test Name               | Endpoint         | Expected Status | Description                              |
-| --------- | ----------------------- | ---------------- | --------------- | ---------------------------------------- |
-| 1         | Get_All_Favorites       | /favorites       | 200             | Get all favorites for authenticated user |
-| 2         | Get_Favorite_By_ID      | /favorites/1     | 200             | Get specific favorite by ID              |
-| 3         | Get_Favorite_Invalid_ID | /favorites/99999 | 404             | Get favorite with non-existent ID        |
-
-#### 3. DELETE /favorites - Delete Favorite
-
-| Test Case | Test Name                  | Endpoint         | Expected Status | Description                          |
-| --------- | -------------------------- | ---------------- | --------------- | ------------------------------------ |
-| 1         | Delete_Favorite_By_ID      | /favorites/1     | 204             | Delete favorite by ID                |
-| 2         | Delete_Favorite_Invalid_ID | /favorites/99999 | 404             | Delete favorite with non-existent ID |
+#### 3. GET /api/products/{id}
+| Test Case | Test Name                | ID   | Expected Status | Description                        |
+| --------- | ------------------------ | ---- | --------------- | ---------------------------------- |
+| 1         | Get_Product_Valid_ID     | 1    | 200             | Lấy chi tiết sản phẩm hợp lệ        |
+| 2         | Get_Product_Invalid_ID   | 9999 | 404             | Lấy chi tiết sản phẩm không tồn tại |
 
 ### Test Data Files
 
-The test data is organized in CSV files for easy maintenance:
-
-- `post_favorite_test_data.csv`: Test data for POST operations
-- `get_favorite_test_data.csv`: Test data for GET operations
-- `delete_favorite_test_data.csv`: Test data for DELETE operations
+Test data được lưu trong các file CSV:
+- `products-list.csv`: cho GET /api/products
+- `products-search.csv`: cho GET /api/products/search
+- `products-detail.csv`: cho GET /api/products/{id}
 
 ---
 
@@ -295,56 +214,28 @@ The test data is organized in CSV files for easy maintenance:
 
 ### Test Execution Summary
 
-| API Endpoint      | Total Tests | Passed | Failed | Success Rate |
-| ----------------- | ----------- | ------ | ------ | ------------ |
-| POST /favorites   | 4           | 4      | 0      | 100%         |
-| GET /favorites    | 3           | 3      | 0      | 100%         |
-| DELETE /favorites | 2           | 1      | 1      | 50%          |
-| **Total**         | **9**       | **8**  | **1**  | **83%**      |
+| API Endpoint             | Total Tests | Passed | Failed | Success Rate |
+| ------------------------ | ----------- | ------ | ------ | ------------ |
+| GET /api/products        | 2           | 2      | 0      | 100%         |
+| GET /api/products/search | 3           | 3      | 0      | 100%         |
+| GET /api/products/{id}   | 2           | 2      | 0      | 100%         |
+| **Total**                | **7**       | **7**  | **0**  | **100%**     |
 
 ### Detailed Results
 
-#### POST /favorites Results
 
-1. ✅ **Add_Valid_Favorite**: PASSED
+#### GET /api/products Results
+1. ✅ **Get_All_Products**: PASSED (200 OK)
+2. ✅ **Get_Products_Pagination**: PASSED (200 OK)
 
-   - Status: 201 Created
+#### GET /api/products/search Results
+1. ✅ **Search_Valid_Keyword**: PASSED (200 OK)
+2. ✅ **Search_Empty**: PASSED (200 OK)
+3. ✅ **Search_Invalid_Keyword**: PASSED (200 OK)
 
-2. ✅ **Add_Duplicate_Favorite**: PASSED
-
-   - Status: 422 422 Unprocessable Content
-
-3. ✅ **Add_Favorite_Invalid_Product**: PASSED
-
-   - Status: 422 422 Unprocessable Content
-
-4. ✅ **Add_Favorite_String_Product**: PASSED
-
-   - Status: 422 422 Unprocessable Content
-
-#### GET /favorites Results
-
-1. ✅ **Get_All_Favorites**: PASSED
-
-   - Status: 200 OK
-
-2. ✅ **Get_Favorite_By_ID**: PASSED
-
-   - Status: 200 OK
-
-3. ✅ **Get_Favorite_Invalid_ID**: PASSED
-   - Status: 404 Not Found
-
-#### DELETE /favorites Results
-
-1. ✅ **Delete_Favorite_By_ID**: PASSED
-
-   - Status: 204 No Content
-
-2. ❌ **Delete_Favorite_Invalid_ID**: FAILED
-   - Expected: 404 Not Found
-   - Actual: 204 No Content
-   - **Bug Found**: No validation for non-existent IDs
+#### GET /api/products/{id} Results
+1. ✅ **Get_Product_Valid_ID**: PASSED (200 OK)
+2. ✅ **Get_Product_Invalid_ID**: PASSED (404 Not Found)
 
 ---
 
@@ -352,11 +243,51 @@ The test data is organized in CSV files for easy maintenance:
 
 ### Step 1 Create a new github repo and upload code
 
-### Step 2 Create .github/workflows/postman-tests.yml in your code folder
 
-![Alt text](./images/31.png)
+### Step 2: Tạo file workflow .github/workflows/api-tests.yml
 
-- You can write manual or use AI generated, and noted use newman for generated report
+Ví dụ nội dung:
+```yaml
+name: API Tests
+on:
+   push:
+      branches: [main]
+   pull_request:
+      branches: [main]
+jobs:
+   test:
+      runs-on: ubuntu-latest
+      steps:
+         - uses: actions/checkout@v3
+         - name: Setup Node.js
+            uses: actions/setup-node@v3
+            with:
+               node-version: 16
+         - name: Install Newman
+            run: npm install -g newman newman-reporter-htmlextra
+         - name: Run Product API Tests
+            run: |
+               newman run "api/Product API Tests - Data Driven.postman_collection.json" \
+                  -e "api/environment.json" \
+                  --iteration-data "api/products-list.csv" \
+                  --reporters cli,htmlextra \
+                  --reporter-htmlextra-export "api/reports/products-list-report.html"
+               newman run "api/Product API Tests - Data Driven.postman_collection.json" \
+                  -e "api/environment.json" \
+                  --iteration-data "api/products-search.csv" \
+                  --reporters cli,htmlextra \
+                  --reporter-htmlextra-export "api/reports/products-search-report.html"
+               newman run "api/Product API Tests - Data Driven.postman_collection.json" \
+                  -e "api/environment.json" \
+                  --iteration-data "api/products-detail.csv" \
+                  --reporters cli,htmlextra \
+                  --reporter-htmlextra-export "api/reports/products-detail-report.html"
+         - name: Upload Reports
+            uses: actions/upload-artifact@v3
+            with:
+               name: api-test-reports
+               path: api/reports/*.html
+```
 
 ### Step 3 Commit and push
 
@@ -382,72 +313,68 @@ The test data is organized in CSV files for easy maintenance:
 
 Automated API testing implemented using GitHub Actions with Newman CLI to execute Postman collections.
 
-### Workflow Configuration
 
-- **Trigger**: Push and pull request events
-- **Environment**: Ubuntu latest runner
+### Workflow Configuration
+- **Trigger**: Push/pull request lên nhánh main
+- **Environment**: Ubuntu-latest
 - **Tools**: Newman CLI, Node.js 16
-- **Test Collection**: Favorite API Tests - Data Driven
+- **Test Collection**: Product API Tests - Data Driven
 
 ### Test Execution Strategy
 
-The pipeline executes three separate test flows:
 
-1. **Add Favorite Tests**: POST /favorites with CSV data
-2. **Get Favorites Tests**: GET /favorites with CSV data
-3. **Delete Favorite Tests**: DELETE /favorites with CSV data
+Pipeline sẽ chạy 3 flow kiểm thử:
+1. **GET /api/products** với file `products-list.csv`
+2. **GET /api/products/search** với file `products-search.csv`
+3. **GET /api/products/{id}** với file `products-detail.csv`
 
 ### Data-Driven Testing
 
-- **CSV Files**: Test data stored in `/data` directory
-- **Iteration Data**: Each API endpoint uses specific CSV files
-- **Folder Structure**: Tests organized by API operation
+
+- **CSV Files**: Test data lưu tại thư mục `api/`
+- **Iteration Data**: Mỗi API sử dụng file CSV riêng
 
 ### Reporting & Artifacts
 
-- **HTML Reports**: Generated for each test flow
-- **Artifact Storage**: Results stored for 90 days
-- **Failure Handling**: Tests continue even if individual flows fail
+
+- **HTML Reports**: Sinh ra cho từng flow kiểm thử
+- **Artifact Storage**: Lưu trữ kết quả trên GitHub
+- **Failure Handling**: Báo lỗi nếu có test nào fail
+
 
 ### Benefits
-
-- **Automated Validation**: Tests run on every code change
-- **Consistent Results**: Standardized test execution
-- **Quick Feedback**: Immediate test result availability
+- **Automated Validation**: Kiểm thử tự động mỗi lần code thay đổi
+- **Consistent Results**: Kết quả kiểm thử nhất quán
+- **Quick Feedback**: Phản hồi nhanh chóng
 
 ---
 
 ## AI Tools Usage (ChatGPT)
 
+
 ### Test Case Design Prompts
 
 #### 1. Generate Test Scenarios
-
 ```
-Generate comprehensive test scenarios for a REST API endpoint that adds products to user favorites. Include positive tests, negative tests, boundary tests, and error handling tests. The endpoint is POST /favorites and requires authentication.
+Generate comprehensive test scenarios for a REST API endpoint GET /api/products, GET /api/products/search, GET /api/products/{id}. Include positive, negative, and boundary tests. Use data-driven approach with CSV.
 ```
 
 #### 2. Create Test Data
-
 ```
 Create test data for API testing with the following requirements:
-- 10 test cases for POST /favorites
-- Include valid and invalid product IDs
-- Include boundary values
-- Include different data types
-- Format as CSV with columns: test_case, test_name, product_id, expected_status, description
+- 5 test cases for GET /api/products
+- 5 test cases for GET /api/products/search
+- 5 test cases for GET /api/products/{id}
+- Format as CSV with columns: test_case, test_name, [search|id], expected_status, description
 ```
 
 ### CI/CD Prompts
-
 ```
 Create a GitHub Actions workflow for API testing that:
 - Runs on push to main branch
-- Uses Newman to execute Postman collections
-- Generates test reports
-- Fails the build if tests fail
+- Uses Newman to execute Postman collections with CSV data
+- Generates HTML test reports
 - Publishes results to GitHub
-Include proper error handling and reporting.
 ```
 
 ## Self-Assessment

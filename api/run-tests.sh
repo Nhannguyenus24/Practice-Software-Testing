@@ -39,7 +39,7 @@ done
 mkdir -p "$OUTPUT_DIR"
 
 TIMESTAMP=$(date +"%Y%m%d_%H%M%S")
-COLLECTION_FILE="collection.json"
+COLLECTION_FILE="Product API Tests - Data Driven.postman_collection.json"
 ENVIRONMENT_FILE="environment.json"
 
 echo "🚀 Product API Tests - Data Driven Testing"
@@ -97,21 +97,21 @@ echo ""
 # Chạy test theo loại API được chọn
 case "$API_TYPE" in
     "list")
-        run_api_test "products-list" "products-list.csv" "GET /api/products (Danh sách sản phẩm)"
+    run_api_test "products-list" "products-list.csv" "GET /api/products (Danh sách sản phẩm)"
         ;;
     "search")
-        run_api_test "products-search" "products-search.csv" "GET /api/products/search (Tìm kiếm sản phẩm)"
+    run_api_test "products-search" "products-search.csv" "GET /api/products/search (Tìm kiếm sản phẩm)"
         ;;
     "detail")
-        run_api_test "products-detail" "products-detail.csv" "GET /api/products/{id} (Chi tiết sản phẩm)"
+    run_api_test "products-detail" "products-detail.csv" "GET /api/products/{id} (Chi tiết sản phẩm)"
         ;;
     "all")
         echo "🔄 Running all API tests..."
         echo ""
         
-        run_api_test "products-list" "products-list.csv" "GET /api/products (Danh sách sản phẩm)"
-        run_api_test "products-search" "products-search.csv" "GET /api/products/search (Tìm kiếm sản phẩm)"
-        run_api_test "products-detail" "products-detail.csv" "GET /api/products/{id} (Chi tiết sản phẩm)"
+    run_api_test "products-list" "products-list.csv" "GET /api/products (Danh sách sản phẩm)"
+    run_api_test "products-search" "products-search.csv" "GET /api/products/search (Tìm kiếm sản phẩm)"
+    run_api_test "products-detail" "products-detail.csv" "GET /api/products/{id} (Chi tiết sản phẩm)"
         
         echo "🎉 All tests completed!"
         ;;
@@ -127,7 +127,7 @@ echo "📁 Reports generated in: $OUTPUT_DIR"
 echo "📊 Open HTML reports in your browser to view detailed results"
 echo ""
 echo "🔧 To run specific API tests:"
-echo "   $0 --api-type list    # Test GET /api/products"
-echo "   $0 --api-type search  # Test GET /api/products/search"
-echo "   $0 --api-type detail  # Test GET /api/products/{id}"
-echo "   $0 --api-type all     # Test all APIs (default)" 
+echo "   sh run-tests.sh --api-type list    # Test GET /api/products"
+echo "   sh run-tests.sh --api-type search  # Test GET /api/products/search"
+echo "   sh run-tests.sh --api-type detail  # Test GET /api/products/{id}"
+echo "   sh run-tests.sh --api-type all     # Test all APIs (default)" 

@@ -29,15 +29,33 @@ jobs:
 
       - name: Run products-list tests
         run: |
-          newman run "Product API Tests - Data Driven.postman_collection.json" -e environment.json "products-list" --reporters cli,junit,html --reporter-junit-export products-list-report.xml --reporter-html-export products-list-report.html
-
-      - name: Run products-detail tests
-        run: |
-          newman run "Product API Tests - Data Driven.postman_collection.json" -e environment.json "products-detail" --reporters cli,junit,html --reporter-junit-export products-detail-report.xml --reporter-html-export products-detail-report.html
+          newman run "Product API Tests - Data Driven.postman_collection.json" \
+            -e environment.json \
+            --iteration-data products-list.csv \
+            --folder "GET /products - Get All Products" \
+            --reporters cli,junit,html \
+            --reporter-junit-export products-list-report.xml \
+            --reporter-html-export products-list-report.html
 
       - name: Run products-search tests
         run: |
-          newman run "Product API Tests - Data Driven.postman_collection.json" -e environment.json "products-search" --reporters cli,junit,html --reporter-junit-export products-search-report.xml --reporter-html-export products-search-report.html
+          newman run "Product API Tests - Data Driven.postman_collection.json" \
+            -e environment.json \
+            --iteration-data products-search.csv \
+            --folder "GET /products/search - Search Products" \
+            --reporters cli,junit,html \
+            --reporter-junit-export products-search-report.xml \
+            --reporter-html-export products-search-report.html
+
+      - name: Run products-detail tests
+        run: |
+          newman run "Product API Tests - Data Driven.postman_collection.json" \
+            -e environment.json \
+            --iteration-data products-detail.csv \
+            --folder "GET /products/{id} - Get Product by ID" \
+            --reporters cli,junit,html \
+            --reporter-junit-export products-detail-report.xml \
+            --reporter-html-export products-detail-report.html
 
       - name: Upload test reports
         uses: actions/upload-artifact@v4
